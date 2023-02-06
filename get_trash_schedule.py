@@ -73,16 +73,10 @@ def main():
     events = ics.parse_file()
     currentdate = datetime.datetime.now().date()
     twodaysago = currentdate + datetime.timedelta(days=1)
-    event_list = []
 
     for event in events:
         if str(twodaysago) in event:
-            eventitem = {
-                "msg": f"Morgen ist {event[0]}."
-            }
-            event_list.append(eventitem)
-    return event_list
-
+            print(f'{{"msg": "Morgen ist {event[0]}."}}')
 
 if __name__ == '__main__':
-    print(main())
+    main()
