@@ -31,14 +31,24 @@ class GetTheCalenderFile():
 
     def write_file(self, filename: str = _file) -> str:
         """Write the calendar file to disk."""
+        try:
+            __content = self._req.text
+        except requests.exceptions.ConnectionError as con_err:
+            print(f"Something went wrong!\nError: {con_err}")
+            exit(1)
+
         with open(filename, 'w', encoding='utf8') as file:
-            file.write(self._req.text)
+            file.write(__content)
         return filename
     
     def read_file(self, filename: str = _file) -> list:
         """Read the calendar file"""
-        with open(filename, 'r', encoding="utf8") as file:
-            text = file.read()
+        if path.exists(filename):
+            with open(filename, 'r', encoding="utf8") as file:
+                text = file.read()
+        else:
+            print("File exists already... skipping download.")
+            exit(1)
         return text
 
     def parse_file(self, filename: str = _file) -> list:
@@ -75,4 +85,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
