@@ -79,7 +79,7 @@ def main():
         if str(twodaysago) in event:
             print(event)
             eventitem = {
-                "msg": f"Morgen ist {event}."
+                "msg": f"Morgen ist {event[0]}."
             }
             event_list.append(eventitem)
     return event_list
