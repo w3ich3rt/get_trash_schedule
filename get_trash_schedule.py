@@ -76,7 +76,7 @@ def main():
 
     for event in events:
         if str(twodaysago) in event:
-            print(f'Übermorgen ist {event[0]}.')
+            print(f'Morgen ist: {event[0]}.')
 
 
 if __name__ == '__main__':
