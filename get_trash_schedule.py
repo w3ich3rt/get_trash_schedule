@@ -19,7 +19,7 @@ import requests
 class GetTheCalenderFile():
     """Download, Read and Delete the file"""
 
-    _file = "abfurhplan.ics"
+    _file = "trash_schedule.ics"
 
     def __init__(self, _target_url, file: str = _file) -> None:
         if path.exists(file):
