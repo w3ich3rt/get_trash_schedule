@@ -9,7 +9,8 @@
 # IMPORTS
 
 from os import path
-from ics import Calendar, Event
+import datetime
+from ics import Calendar
 import requests
 
 # CLASSES
@@ -17,19 +18,21 @@ import requests
 
 class GetTheCalenderFile():
     """Download, Read and Delete the file"""
-    req = ""
-    _file = "abfuhrplan2023.ics"
 
-    def __init__(self, _target_url) -> None:
-        self.req = requests.get(_target_url, timeout=5)
+    _file = "abfurhplan.ics"
+
+    def __init__(self, _target_url, file: str = _file) -> None:
+        if path.exists(file):
+            print("File exists already... skipping download.")
+        else:
+            with open(file, 'w', encoding='utf8') as file:
+                self._req = requests.get(_target_url, timeout=15)
+                self.write_file()
 
     def write_file(self, filename: str = _file) -> str:
         """Write the calendar file to disk."""
-        if path.exists(filename):
-            print("File exists already... skipping download.")
-        else:
-            with open(filename, 'w', encoding='utf8') as file:
-                file.write(self.req.text)
+        with open(filename, 'w', encoding='utf8') as file:
+            file.write(self._req.text)
         return filename
     
     def read_file(self, filename: str = _file) -> list:
@@ -43,7 +46,7 @@ class GetTheCalenderFile():
         __list = []
         cals = Calendar(self.read_file(filename))
         for event in cals.events:
-            __item = [event.name, str(event.begin)]
+            __item = [event.name, str(event.begin)[:10]]
             __list.append(__item)
         return __list
 
@@ -60,10 +63,16 @@ def main():
     """main function"""
     ics = GetTheCalenderFile(URL)
     events = ics.parse_file()
+    currentdate = datetime.datetime.now().date()
+    twodaysago = currentdate + datetime.timedelta(days=1)
 
     for event in events:
-        if "Biotonne" in event:
-            print(event)
+        if str(twodaysago) in event:
+            return_msg = {
+                'msg': f"Morgen ist {event[0]}."
+            }
+    return return_msg
+
 
 if __name__ == '__main__':
     main()
