@@ -73,7 +73,7 @@ def main():
     events = ics.parse_file()
     currentdate = datetime.datetime.now().date()
     twodaysago = currentdate + datetime.timedelta(days=1)
-    event_list = [0]
+    event_list = []
 
     for event in events:
         if str(twodaysago) in event:
