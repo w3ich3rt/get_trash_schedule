@@ -77,7 +77,6 @@ def main():
 
     for event in events:
         if str(twodaysago) in event:
-            print(event)
             eventitem = {
                 "msg": f"Morgen ist {event[0]}."
             }
