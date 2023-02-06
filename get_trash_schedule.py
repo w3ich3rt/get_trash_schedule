@@ -22,9 +22,7 @@ class GetTheCalenderFile():
     _file = "trash_schedule.ics"
 
     def __init__(self, _target_url, file: str = _file) -> None:
-        if path.exists(file):
-            print("File exists already... skipping download.")
-        else:
+        if not path.exists(file):
             with open(file, 'w', encoding='utf8') as file:
                 self._req = requests.get(_target_url, timeout=15)
                 self.write_file()
@@ -75,13 +73,16 @@ def main():
     events = ics.parse_file()
     currentdate = datetime.datetime.now().date()
     twodaysago = currentdate + datetime.timedelta(days=1)
+    event_list = [0]
 
     for event in events:
         if str(twodaysago) in event:
-            return_msg = {
-                'msg': f"Morgen ist {event[0]}."
+            print(event)
+            eventitem = {
+                "msg": f"Morgen ist {event}."
             }
-    return return_msg
+            event_list.append(eventitem)
+    return event_list
 
 
 if __name__ == '__main__':
