@@ -19,7 +19,7 @@ import requests
 class GetTheCalenderFile():
     """Download, Read and Delete the file"""
 
-    _file = "trash_schedule.ics"
+    _file = "/home/um3n/get_trash_schedule/trash_schedule.ics"
 
     def __init__(self, _target_url, file: str = _file) -> None:
         if not path.exists(file):
@@ -73,11 +73,16 @@ def main():
     events = ics.parse_file()
     currentdate = datetime.datetime.now().date()
     twodaysago = currentdate + datetime.timedelta(days=1)
+    no_schedule = 0
 
     for event in events:
         if str(twodaysago) in event:
             print(f'Morgen ist: {event[0]}.')
+            no_schedule = 1
+            break
 
+    if no_schedule == 0:
+        print("Kein Termin anstehend")
 
 if __name__ == '__main__':
     main()
